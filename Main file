@@ -1,0 +1,49 @@
+import mediacloud
+import datetime
+import unittest
+
+pip install mediacloud
+
+
+# Verify that we can open and read the election results CSV correctly
+# Showing a "test-driven" style
+
+from mediacloud import Results
+
+
+class ResultsTest(unittest.TestCase):
+
+    def setUp(self):
+        self.results = Results('election_results_.csv')
+
+    def testLoad(self):
+        self.results.load()
+        assert self.results is not None
+        assert self.results.file is not None
+        assert len(self.results.all_lines) > 0
+        
+    def testStateCount(self):
+        self.results.load()
+        state_count = self.results.state_count()
+        assert state_count==2
+
+    def testStates(self):
+        self.results.load()
+        names = self.results.states()
+        assert len(names)==2
+        assert names[0]=='Obama'
+        assert names[1]=='election'
+
+
+# if this file is run directly, run the tests
+if __name__ == "__main__":
+    unittest.main()
+    
+    
+
+
+
+import numpy as np
+import logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
