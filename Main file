@@ -9,41 +9,45 @@ pip install mediacloud
 # Showing a "test-driven" style
 
 from mediacloud import Results
+import unittest
+ 
+'''
+Module showing how doctests can be included with source code
+Each '>>>' line is run as if in a python shell, and counts as a test.
+The next line, if not '>>>' is the expected output of the previous line.
+If anything doesn't match exactly (including trailing spaces), the test fails.
+'''
+ 
+class unnecessary_math: 
+    def multiply(a, b):
 
+    >>> multiply(4, 3)
+    12
+    >>> multiply('a', 3)
+    'aaa'
+    
+    
+    return a * b
 
-class ResultsTest(unittest.TestCase):
+python -m doctest <file>
 
+from unnecessary_math import multiply
+
+class TestUM(unittest.TestCase):
+ 
     def setUp(self):
-        self.results = Results('election_results_.csv')
-
-    def testLoad(self):
-        self.results.load()
-        assert self.results is not None
-        assert self.results.file is not None
-        assert len(self.results.all_lines) > 0
-        
-    def testStateCount(self):
-        self.results.load()
-        state_count = self.results.state_count()
-        assert state_count==2
-
-    def testStates(self):
-        self.results.load()
-        names = self.results.states()
-        assert len(names)==2
-        assert names[0]=='Obama'
-        assert names[1]=='election'
-
+        pass
+ 
+    def test_numbers_3_4(self):
+        self.assertEqual( multiply(3,4), 12)
+ 
+    def test_strings_a_3(self):
+        self.assertEqual( multiply('a',3), 'aaa')
+ 
+if __name__ == '__main__':
+    unittest.main()
+    
 
 # if this file is run directly, run the tests
 if __name__ == "__main__":
     unittest.main()
-    
-    
-
-
-
-import numpy as np
-import logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
